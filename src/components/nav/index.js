@@ -4,7 +4,12 @@ import { Logo, NavContainer, NavItems } from "../../styles";
 import InputComponent from "../input";
 
 export default function Nav() {
-  const { isFetching, currentQuery, handleQueryChange } = useGithub();
+  const {
+    isFetching,
+    currentQuery,
+    handleQueryChange,
+    getCommits,
+  } = useGithub();
   return (
     <NavContainer
       className={css`
@@ -40,7 +45,7 @@ export default function Nav() {
           <Logo>CommitViewer</Logo>
         </section>
         <section className={``}>
-          {isFetching || currentQuery ? (
+          {isFetching || currentQuery.length > 0 ? (
             <section
               className={css`
                 display: grid;
@@ -81,6 +86,7 @@ export default function Nav() {
                     opacity: 0.7;
                   }
                 `}
+                onClick={getCommits}
               >
                 See Commits {"🚀"}
               </button>

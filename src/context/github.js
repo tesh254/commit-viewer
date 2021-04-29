@@ -11,6 +11,7 @@ export const GithubContext = createContext({
   getCommits: () => {},
   handleQueryChange: () => {},
   error: "",
+  onSelect: () => {},
 });
 
 export function GithubProvider(props) {
@@ -71,6 +72,29 @@ export function GithubProvider(props) {
     }
   }
 
+  function onTagSelect(query) {
+    setCurrentQuery(query);
+    setFetching(true);
+
+    const [owner, repo] = query.split("/");
+
+    if (owner && repo) {
+      octokit
+        .request(`GET /repos/{owner}/{repo}/commits`, {
+          owner,
+          repo,
+        })
+        .then((res) => {
+          setFetching(false);
+          setCommits(() => [...res.data]);
+        })
+        .catch((err) => {
+          setFetching(false);
+          setError("No commits found");
+        });
+    }
+  }
+
   return (
     <GithubContext.Provider
       value={{
@@ -80,6 +104,8 @@ export function GithubProvider(props) {
         isFetching: fetching,
         getCommits: getRepoCommits,
         handleQueryChange: setCurrentQuery,
+        onSelect: onTagSelect,
+        error,
       }}
     >
       {props.children}

@@ -11,12 +11,7 @@ import Commits from "./features/commits";
 setup(React.createElement);
 
 function App() {
-  const { trending, handleQueryChange, currentQuery, getCommits } = useGithub();
-
-  function onTagClick(query) {
-    handleQueryChange(query);
-    getCommits();
-  }
+  const { currentQuery } = useGithub();
 
   return (
     <>

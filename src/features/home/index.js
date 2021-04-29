@@ -6,12 +6,8 @@ import InputComponent from "../../components/input";
 import { useGithub } from "../../context/github";
 
 export default function Home() {
-  const { trending, handleQueryChange, currentQuery, getCommits } = useGithub();
+  const { trending, handleQueryChange, currentQuery, onSelect } = useGithub();
 
-  function onTagClick(query) {
-    handleQueryChange(query);
-    getCommits();
-  }
   return (
     <Container>
       <section
@@ -119,7 +115,7 @@ export default function Home() {
               return (
                 <Tag
                   label={`${item.owner.login}/${item.name}`}
-                  onClick={onTagClick}
+                  onClick={onSelect}
                 />
               );
             })}
