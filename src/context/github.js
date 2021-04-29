@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Octokit } from "@octokit/rest";
 import React, { useState, useEffect, useContext, createContext } from "react";
 
