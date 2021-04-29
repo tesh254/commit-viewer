@@ -9,6 +9,8 @@ export const GithubContext = createContext({
   trending: [],
   currentQuery: "",
   getCommits: () => {},
+  handleQueryChange: () => {},
+  error: "",
 });
 
 export function GithubProvider(props) {
@@ -16,6 +18,7 @@ export function GithubProvider(props) {
   const [currentQuery, setCurrentQuery] = useState("");
   const [commits, setCommits] = useState([]);
   const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState("");
 
   function getDate(value) {
     const d = new Date();
@@ -33,7 +36,7 @@ export function GithubProvider(props) {
         q: `created:>${getDate(7)}`,
         sort: "stars",
         order: "desc",
-        per_page: 5,
+        per_page: 4,
       })
       .then((res) => {
         setTrending(() => [...res.data.items]);
@@ -45,15 +48,13 @@ export function GithubProvider(props) {
     getTrendingRepos();
   }, []);
 
-  function getRepoCommits(query) {
+  function getRepoCommits() {
+    setError("");
     setFetching(true);
 
-    const [owner, repo] = query.split("/");
-
-    console.log({ owner, repo });
+    const [owner, repo] = currentQuery.split("/");
 
     if (owner && repo) {
-      setCurrentQuery(query);
       octokit
         .request(`GET /repos/{owner}/{repo}/commits`, {
           owner,
@@ -65,6 +66,7 @@ export function GithubProvider(props) {
         })
         .catch((err) => {
           setFetching(false);
+          setError("No commits found");
         });
     }
   }
@@ -77,6 +79,7 @@ export function GithubProvider(props) {
         currentQuery,
         isFetching: fetching,
         getCommits: getRepoCommits,
+        handleQueryChange: setCurrentQuery,
       }}
     >
       {props.children}
