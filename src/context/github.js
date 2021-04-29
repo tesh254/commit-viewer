@@ -15,6 +15,7 @@ export const GithubContext = createContext({
   error: "",
   onSelect: () => {},
   showResults: false,
+  clear: () => {},
 });
 
 export function GithubProvider(props) {
@@ -105,6 +106,12 @@ export function GithubProvider(props) {
     }
   }
 
+  function clear() {
+    setCurrentQuery("");
+    setShowResults(false);
+    setCommits(() => []);
+  }
+
   return (
     <GithubContext.Provider
       value={{
@@ -117,6 +124,7 @@ export function GithubProvider(props) {
         onSelect: onTagSelect,
         error,
         showResults,
+        clear,
       }}
     >
       {props.children}

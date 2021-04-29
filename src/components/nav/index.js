@@ -10,6 +10,7 @@ export default function Nav() {
     getCommits,
     showResults,
     isFetching,
+    clear,
   } = useGithub();
   return (
     <NavContainer
@@ -40,7 +41,7 @@ export default function Nav() {
           }
         `}
       >
-        <section onClick={() => handleQueryChange("")}>
+        <section onClick={clear}>
           <Logo>CommitViewer</Logo>
         </section>
         <section className={``}>
