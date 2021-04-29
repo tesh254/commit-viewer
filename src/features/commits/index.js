@@ -55,7 +55,7 @@ export default function Commits() {
                       @media only screen and (max-width: 600px) {
                         display: grid;
                         grid-template-columns: 1fr;
-                        grid-template-rows: 64px 64px;
+                        grid-template-rows: max-content 64px;
                         grid-column-gap: 8px;
                         grid-row-gap: 0px;
                       }
@@ -82,7 +82,7 @@ export default function Commits() {
                       className={css`
                         display: grid;
                         grid-template-columns: 160px 1fr 166px;
-                        grid-template-rows: 60px;
+                        grid-template-rows: max-content;
                         grid-column-gap: 8px;
                         grid-row-gap: 0px;
 
