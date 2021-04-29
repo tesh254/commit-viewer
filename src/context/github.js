@@ -14,6 +14,7 @@ export const GithubContext = createContext({
   handleQueryChange: () => {},
   error: "",
   onSelect: () => {},
+  showResults: false,
 });
 
 export function GithubProvider(props) {
@@ -22,6 +23,7 @@ export function GithubProvider(props) {
   const [commits, setCommits] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState("");
+  const [showResults, setShowResults] = React.useState(false);
 
   function getDate(value) {
     const d = new Date();
@@ -54,6 +56,7 @@ export function GithubProvider(props) {
   function getRepoCommits() {
     setError("");
     setFetching(true);
+    setShowResults(false);
 
     const [owner, repo] = currentQuery.split("/");
 
@@ -65,16 +68,19 @@ export function GithubProvider(props) {
         })
         .then((res) => {
           setFetching(false);
+          setShowResults(true);
           setCommits(() => [...res.data]);
         })
         .catch((err) => {
           setFetching(false);
+          setShowResults(false);
           setError("No commits found");
         });
     }
   }
 
   function onTagSelect(query) {
+    setShowResults(false);
     setCurrentQuery(query);
     setFetching(true);
 
@@ -87,10 +93,12 @@ export function GithubProvider(props) {
           repo,
         })
         .then((res) => {
+          setShowResults(true);
           setFetching(false);
           setCommits(() => [...res.data]);
         })
         .catch((err) => {
+          setShowResults(false);
           setFetching(false);
           setError("No commits found");
         });
@@ -108,6 +116,7 @@ export function GithubProvider(props) {
         handleQueryChange: setCurrentQuery,
         onSelect: onTagSelect,
         error,
+        showResults,
       }}
     >
       {props.children}

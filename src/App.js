@@ -8,12 +8,12 @@ import Commits from "./features/commits";
 setup(React.createElement);
 
 function App() {
-  const { currentQuery } = useGithub();
+  const { showResults, isFetching } = useGithub();
 
   return (
     <>
       <Nav />
-      {currentQuery ? <Commits /> : <Home />}
+      {showResults || isFetching ? <Commits /> : <Home />}
     </>
   );
 }

@@ -6,7 +6,13 @@ import InputComponent from "../../components/input";
 import { useGithub } from "../../context/github";
 
 export default function Home() {
-  const { trending, handleQueryChange, currentQuery, onSelect } = useGithub();
+  const {
+    trending,
+    handleQueryChange,
+    currentQuery,
+    onSelect,
+    getCommits,
+  } = useGithub();
 
   return (
     <Container>
@@ -84,6 +90,7 @@ export default function Home() {
               opacity: 0.7;
             }
           `}
+          onClick={getCommits}
         >
           See Commits {"🚀"}
         </button>
@@ -114,8 +121,9 @@ export default function Home() {
             {trending.map((item) => {
               return (
                 <Tag
-                  label={`${item.owner.login}/${item.name}`}
+                  label={`${item.owner?.login}/${item.name}`}
                   onClick={onSelect}
+                  key={item}
                 />
               );
             })}

@@ -108,7 +108,7 @@ export default function Commits() {
                       >
                         <img
                           src={item.committer?.avatar_url}
-                          alt={item.committer.login}
+                          alt={item.committer?.login}
                           className={css`
                             width: 60px;
                             border-radius: 50%;
@@ -122,7 +122,7 @@ export default function Commits() {
                             font-size: 22px;
                           `}
                         >
-                          {item.committer.login}
+                          {item.committer?.login}
                         </p>
                       </section>
                       <section

@@ -5,15 +5,16 @@ import InputComponent from "../input";
 
 export default function Nav() {
   const {
-    isFetching,
     currentQuery,
     handleQueryChange,
     getCommits,
+    showResults,
+    isFetching,
   } = useGithub();
   return (
     <NavContainer
       className={css`
-        background: ${(currentQuery || isFetching) && "#EFF2F6"};
+        background: ${showResults && "#EFF2F6"};
         height: 130px;
 
         @media only screen and (max-width: 600px) {
@@ -35,9 +36,7 @@ export default function Nav() {
             flex-wrap: wrap;
             padding: 16px 0px;
             height: auto;
-            justify-content: ${currentQuery.length > 0
-              ? "center"
-              : "space-between"};
+            justify-content: ${showResults ? "center" : "space-between"};
           }
         `}
       >
@@ -45,7 +44,7 @@ export default function Nav() {
           <Logo>CommitViewer</Logo>
         </section>
         <section className={``}>
-          {isFetching || currentQuery.length > 0 ? (
+          {showResults || isFetching ? (
             <section
               className={css`
                 display: grid;
@@ -69,6 +68,7 @@ export default function Nav() {
                   handleQueryChange(VALUE);
                 }}
                 placeholder="E.g. facebook/react"
+                autoFocus
               />
               <button
                 className={css`
